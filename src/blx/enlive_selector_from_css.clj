@@ -1,4 +1,4 @@
-(ns eac
+(ns blx.enlive-selector-from-css
   (require [clojure.string :as str]))
 
 (def ^:dynamic *enlive* "html")
