@@ -1,6 +1,6 @@
 # enlive-selector-from-css
 
-Tiny CSS parser to translate CSS selectors like
+Tiny parser to translate CSS selectors like
 ```css
 div.big ul:last-of-type input.xyz[type=text]
 ```
