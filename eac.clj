@@ -1,7 +1,6 @@
 (ns eac
   (require [clojure.string :as str]))
 
-
 (def ^:dynamic *enlive* "html")
 
 (defn- sym [s]
@@ -60,10 +59,6 @@
          attrs)))
   
 (defn parse [token]
-  ;(if (= token ">")
-    ; TODO tokenizer needs to bind > chars with prev and next tokens
-    ; so we can process them
-
   (if-let [[_ sel psu] (re-find #"(.*):(.*)" token)]
     (conj [(keyword sel)] (pseudos psu))
 
@@ -85,6 +80,6 @@
 
 
 ;; test
-(def testcss "p#x body.blue:not(.red) #lol:first-of-type input[type=text] span:nth-child(3n + 1 )")
+(def testcss "p#x > body.blue:not(.red) #lol:first-of-type input[type=text] span:nth-child(3n + 1 )")
 (defn testrun [] (translate-css testcss))
 ;(println (testrun))
