@@ -1,14 +1,21 @@
 # enlive-selector-from-css
 
-Tiny parser to translate CSS selectors like
-```css
-div.big ul:last-of-type input.xyz[type=text]
-```
-into selector vectors like
+Tiny parser to translate CSS selectors into [Enlive](https://github.com/cgrand/enlive)
+selector vectors.
+
 ```clojure
-[:div.big [:ul html/last-of-type] [:input.xyz (html/attr= :type "text")]]
+user=> (require '[blx.enlive-selector-from-css :as ecss])
+nil
+user=> (ecss/translate-css "div.big > ul:last-of-type input.xyz[type=text]")
+[:div.big :> [:ul html/last-of-type] [:input.xyz (html/attr= :type "text")]]
 ```
-as used by [Enlive](https://github.com/cgrand/enlive).
+
+To change the enlive namespace of generated forms, pass it as the second argument:
+
+```clojure
+user=> (ecss/translate-css "#wow p:not(.red)" "enlive")
+[:#wow [:p (enlive/but :.red)]]
+```
 
 No guarantees of robustness or usefulness are provided.
 For such concerns, use a mature CSS parsing library — it won't
