@@ -9,6 +9,12 @@
 (defn- ->int [s]
   (Integer/parseInt (str/replace s #"\s*" "")))
 
+(defn comma-tokenize
+  "Split compound CSS selectors at the comma, eg. 
+   ul.outline, ol.outline"
+  [css]
+  (str/split css #"\s*,\s*"))
+
 (defn tokenize
   "Split on whitespace outside of parentheses."
   [css]
@@ -73,13 +79,16 @@
    Any generated references to enlive are namespaced under 'html' by 
    default; pass in a different name if required."
   ([cssrule]
-   (mapv parse (tokenize cssrule)))
+   (->> (comma-tokenize cssrule)
+        (mapv tokenize)
+        (mapv (partial mapv parse))
+        (into #{})))
   ([cssrule enlive]
    (with-bindings {#'*enlive* enlive}
      (translate-css cssrule))))
 
 
 ;; test
-(def testcss "p#x > body.blue:not(.red) #lol:first-of-type input[type=text] span:nth-child(3n + 1 )")
+(def testcss "ul.stuff, p#x > body.blue:not(.red) #lol:first-of-type input[type=text] span:nth-child(3n + 1 )")
 (defn testrun [] (translate-css testcss))
 ;(println (testrun))
