@@ -82,7 +82,9 @@
    (->> (comma-tokenize cssrule)
         (mapv tokenize)
         (mapv (partial mapv parse))
-        (into #{})))
+        (into #{})
+        (#(if (= 1 (count %))
+            (first %) %))))
   ([cssrule enlive]
    (with-bindings {#'*enlive* enlive}
      (translate-css cssrule))))
