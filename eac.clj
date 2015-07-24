@@ -53,14 +53,14 @@
     (mapv (fn [[_ kw' sgn v]]
            (let [kw (keyword kw')] 
              (if-not sgn
-               `(~'attr? ~kw)
+               `(~(sym "attr?") ~kw)
                (condp = sgn
-                 "=" `(~'attr= ~kw ~v)
-                 "~=" `(~'attr-has ~kw ~v)
-                 "^=" `(~'attr-starts ~kw ~v)
-                 "$=" `(~'attr-ends ~kw ~v)
-                 "*=" `(~'attr-contains ~kw ~v)
-                 "|=" `(~'attr|= ~kw ~v)
+                 "=" `(~(sym "attr=") ~kw ~v)
+                 "~=" `(~(sym "attr-has") ~kw ~v)
+                 "^=" `(~(sym "attr-starts") ~kw ~v)
+                 "$=" `(~(sym "attr-ends") ~kw ~v)
+                 "*=" `(~(sym "attr-contains") ~kw ~v)
+                 "|=" `(~(sym "attr|=") ~kw ~v)
                  nil))))
          attrs)))
   
